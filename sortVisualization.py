@@ -33,3 +33,18 @@ class DrawInformation:
         self.block_height = math.floor((self.height - self.TOP_PAD) / (self.max_val - self.min_val))
         self.start_x = self.SIDE_PAD // 2
 
+def generate_list(n, minVal, maxVal):
+    list = []
+    for _ in range(n):
+        value = random.randint(minVal, maxVal)
+        list.append(value)
+    return list
+
+def main():
+    n, minVAL, maxVal = 250, 0, 100
+
+    list = generate_list(n, minVAL, maxVal)
+
+
+if __name__ == "__main__":
+    main()
