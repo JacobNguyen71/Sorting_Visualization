@@ -35,7 +35,23 @@ class DrawInformation:
 
 def draw(draw_info):
     draw_info.window.fill(draw_info.BACKGROUND_COLOR)
+    draw_list(draw_info)
     pygame.display.update()
+
+def draw_list(draw_info, color_positions = {}, clear_background = False):
+    list = draw_info.list
+    for i, val in enumerate(list):
+        x = draw_info.start_x + i * draw_info.block_width
+        y = draw_info.height - (val - draw_info.min_val) * draw_info.block_height
+
+        color = draw_info.GRADIENTS[i % 3]
+
+        if i in color_positions:
+            color = color_positions[i]
+
+        pygame.draw.rect(draw_info.window, color, (x, y, draw_info.block_width, draw_info.height))
+    if clear_background:
+        pygame.display.update()
 
 def generate_list(n, minVal, maxVal):
     list = []
@@ -50,7 +66,7 @@ def main():
     n, minVAL, maxVal = 250, 0, 100
 
     list = generate_list(n, minVAL, maxVal)
-    draw_info = DrawInformation(800, 600, list)
+    draw_info = DrawInformation(1600, 800, list)
 
     while run:
         clock.tick(60)
