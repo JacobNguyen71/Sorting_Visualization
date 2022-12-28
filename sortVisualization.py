@@ -35,7 +35,7 @@ class DrawInformation:
         self.start_x = self.SIDE_PAD // 2
 
 
-def draw(draw_info):
+def draw(draw_info, algorithm_name, ascending):
     draw_info.window.fill(draw_info.BACKGROUND_COLOR)
     draw_list(draw_info)
     pygame.display.update()
@@ -90,14 +90,33 @@ def main():
     list = generate_list(n, minVAL, maxVal)
     draw_info = DrawInformation(1600, 800, list)
 
+    sorting = False
+    ascending = True
+
+    sortingAlgorithm = bubble_sort
+    sortingAlgorithmName = "Bubble Sort"
+    sortingAlgorithmGenerator = None
+
     while run:
         clock.tick(60)
 
-        draw(draw_info)
+        if sorting:
+            try:
+                next(sortingAlgorithmGenerator)
+            except StopIteration:
+                sorting = False
+        else:
+            draw(draw_info, sortingAlgorithmName, ascending)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type != pygame.KEYDOWN:
+                continue
+            if event.key == pygame.K_r:
+                list = generate_list(n, minVAL, maxVal)
+                draw_info.set_list(list)
+                sorting = False
     pygame.quit()
 
 
