@@ -46,7 +46,7 @@ def draw(draw_info, algorithm_name, ascending):
                                      draw_info.BLACK)
     draw_info.window.blit(controls, (draw_info.width / 2 - controls.get_width() / 2, 45))
 
-    sorting = draw_info.FONT.render("I - Insertion Sort | B - Bubble Sort", 1, draw_info.BLACK)
+    sorting = draw_info.FONT.render("I - Insertion Sort | B - Bubble Sort | H - Heap Sort", 1, draw_info.BLACK)
     draw_info.window.blit(sorting, (draw_info.width / 2 - sorting.get_width() / 2, 75))
 
     draw_list(draw_info)
@@ -122,6 +122,36 @@ def insertion_sort(draw_info, ascending=True):
     return list
 
 
+def heapify(arr, N, i):
+    largest = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+
+    if l < N and arr[largest] < arr[l]:
+        largest = l
+
+    if r < N and arr[largest] < arr[r]:
+        largest = r
+
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+
+        heapify(arr, N, largest)
+
+
+def heap_sort(draw_info, ascending=True):
+    list = draw_info.list
+    N = len(list)
+
+    for i in range(N // 2 - 1, -1, -1):
+        heapify(list, N, i)
+
+    for i in range(N - 1, 0, -1):
+        list[i], list[0] = list[0], list[i]
+        heapify(list, i, 0)
+        draw_list(draw_info, {i - 1: draw_info.BLUE, i: draw_info.RED}, True)
+        yield True
+
 def main():
     run = True
     clock = pygame.time.Clock()
@@ -170,6 +200,9 @@ def main():
             elif event.key == pygame.K_b and not sorting:
                 sortingAlgorithm = bubble_sort
                 sortingAlgorithmName = "Bubble Sort"
+            elif event.key == pygame.K_h and not sorting:
+                sortingAlgorithm = heap_sort
+                sortingAlgorithmName = "Heap Sort"
     pygame.quit()
 
 
