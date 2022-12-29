@@ -153,6 +153,8 @@ def main():
                 sortingAlgorithmName = "Insertion Sort"
             elif event.key == pygame.K_d and not sorting:
                 ascending = False
+            elif event.key == pygame.K_a and not sorting:
+                ascending = True
             elif event.key == pygame.K_b and not sorting:
                 sortingAlgorithm = bubble_sort
                 sortingAlgorithmName = "Bubble Sort"
